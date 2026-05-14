@@ -1,0 +1,125 @@
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useRoute, RouterLink } from 'vue-router'
+import { getProductById } from '@/services/productService'
+import { useCartStore } from '@/stores/cartStore'
+import type { Product } from '@/types/product'
+
+const route = useRoute()
+const cartStore = useCartStore()
+
+const product = ref<Product | null>(null)
+const loading = ref(true)
+
+const fetchProductDetail = async () => {
+  try {
+    const id = Number(route.params.id)
+    product.value = await getProductById(id)
+  } catch (error) {
+    console.error('Failed to fetch product detail:', error)
+    product.value = null
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(fetchProductDetail)
+</script>
+
+<template>
+  <main class="min-h-screen bg-[#FDF8F0] px-6 py-16 text-[#4A2E2B] flex justify-center">
+    <section
+      v-if="product"
+      class="w-full max-w-6xl"
+    >
+      <!-- Back Button -->
+      <RouterLink
+        to="/menu"
+        class="inline-flex items-center gap-2 mb-8 text-[#4E8BB7] hover:text-[#36525d] transition"
+      >
+        ← Back to Menu
+      </RouterLink>
+
+      <!-- Product Container -->
+      <div
+        class=" border border-[#E7D8C9] rounded-4xl shadow-lg p-8 md:p-12"
+      >
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+          
+          <!-- Image -->
+          <div class="flex justify-center">
+            <div
+              class="w-full max-w-130 aspect-square rounded-[28px] overflow-hidden bg-[#fee0c6] border border-[#E7D8C9]"
+            >
+              <img
+                :src="product.image"
+                :alt="product.name"
+                class="w-full h-full object-cover hover:scale-105 transition duration-500"
+              >
+            </div>
+          </div>
+
+          <!-- Detail -->
+          <div class="flex flex-col justify-center">
+            <span
+              v-if="product.category?.name"
+              class="w-fit px-4 py-2 rounded-full bg-[#EAF4FB] text-[#4E8BB7] text-sm font-semibold mb-5"
+            >
+              {{ product.category.name }}
+            </span>
+
+            <h1 class="text-5xl font-bold leading-tight mb-5">
+              {{ product.name }}
+            </h1>
+
+            <p class="text-[#6B4F4F] text-lg leading-relaxed mb-8">
+              {{
+                product.description ||
+                'Freshly baked pastry with premium ingredients and handcrafted texture.'
+              }}
+            </p>
+
+            <div class="flex items-center gap-4 mb-10">
+              <p class="text-4xl font-bold text-[#4E8BB7]">
+                Rp {{ Number(product.price).toLocaleString('id-ID') }}
+              </p>
+
+              <span
+                class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm"
+              >
+                Available
+              </span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex flex-wrap gap-4">
+              <button
+                @click="cartStore.addToCart(product)"
+                class="px-8 py-4 rounded-2xl bg-[#4E8BB7] text-white font-semibold hover:bg-[#36525d] transition shadow-md"
+              >
+                Add to Cart
+              </button>
+
+              <RouterLink
+                to="/cart"
+                class="inline-flex items-center justify-center px-8 py-4 rounded-2xl border border-[#D8C3A5] text-[#4A2E2B] hover:bg-[#F6EEE5] transition font-semibold"
+              >
+                View Cart
+              </RouterLink>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Not Found -->
+    <div
+      v-else
+      class="flex items-center justify-center min-h-[60vh]"
+    >
+      <p class="text-xl text-[#6B4F4F]">
+        Produk tidak ditemukan.
+      </p>
+    </div>
+  </main>
+</template>
