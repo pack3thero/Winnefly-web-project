@@ -27,14 +27,14 @@ async function submitLogin() {
     <form @submit.prevent="submitLogin" class="w-full max-w-md border border-[#D8C3A5] rounded-2xl p-8">
       <h1 class="text-3xl font-bold mb-6 text-[#4A2E2B]">Login</h1>
 
-      <input v-model="form.email" type="email" placeholder="Email" class="auth-input" />
-      <input v-model="form.password" type="password" placeholder="Password" class="auth-input" />
+      <input v-model="form.email" type="email" placeholder="Email" class="auth-input text-black" />
+      <input v-model="form.password" type="password" placeholder="Password" class="auth-input text-black" />
 
-      <button class="w-full bg-[#4E8BB7] text-white py-3 rounded-xl mt-4">
+      <button class="w-full bg-[#4E8BB7] text-black py-3 rounded-xl mt-4">
         Login
       </button>
 
-      <p class="mt-4 text-center">
+      <p class="mt-4 text-center text-black">
         Belum punya akun?
         <RouterLink to="/register" class="text-[#4E8BB7]">Register</RouterLink>
       </p>

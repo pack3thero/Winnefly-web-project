@@ -29,22 +29,31 @@ const authStore = useAuthStore()
 
       <!-- CENTER : NAVBAR -->
       <nav class="absolute left-1/2 -translate-x-1/2 flex items-center gap-10">
-        <RouterLink to="/" class="text-sm text-[#4A2E2B] font-medium hover:text-[#C58C6D] transition">
+        <RouterLink
+          to="/"
+          class="nav-link"
+        >
           Home
         </RouterLink>
 
-        <RouterLink to="/menu" class="text-sm text-[#4A2E2B] font-medium hover:text-[#C58C6D] transition">
+        <RouterLink
+          to="/#our-products"
+          class="nav-link"
+        >
           Menu
         </RouterLink>
 
-        <RouterLink to="/about" class="text-sm text-[#4A2E2B] font-medium hover:text-[#C58C6D] transition">
+        <RouterLink
+          to="/#our-story"
+          class="nav-link"
+        >
           About Us
         </RouterLink>
 
         <RouterLink
           v-if="!authStore.user"
           to="/login"
-          class="text-sm text-[#4A2E2B] font-medium hover:text-[#C58C6D] transition"
+          class="nav-link"
         >
           Login
         </RouterLink>
@@ -98,3 +107,35 @@ const authStore = useAuthStore()
     </div>
   </header>
 </template>
+
+<style scoped>
+.nav-link {
+  position: relative;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4A2E2B;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #C58C6D;
+  transform: translateY(-2px);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: #C58C6D;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+</style>

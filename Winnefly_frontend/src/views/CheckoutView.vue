@@ -47,53 +47,97 @@ async function checkout() {
 
 <template>
   <main class="bg-[#FDF8F0] text-[#4A2E2B]">
-    <section class="max-w-5xl mx-auto px-8 py-10">
-      <h1 class="text-3xl font-bold mb-8">
-        Checkout
-      </h1>
+    <section class="w-full px-8 py-16 flex justify-center">
+      <div class="w-full max-w-5xl">
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <form @submit.prevent="checkout" class="lg:col-span-2 space-y-5">
-          <input v-model="form.name" required placeholder="Nama lengkap" class="checkout-input" />
+        <!-- TITLE -->
+        <h1 class="text-4xl font-bold mb-10 text-[#4A2E2B]">
+          Checkout
+        </h1>
 
-          <input v-model="form.email" required type="email" placeholder="Email" class="checkout-input" />
+        <!-- CONTENT -->
+        <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_0.9fr] gap-14 items-start">
 
-          <input v-model="form.phone" required placeholder="Nomor HP" class="checkout-input" />
+          <!-- FORM -->
+          <form @submit.prevent="checkout" class="space-y-5">
 
-          <textarea v-model="form.address" required placeholder="Alamat lengkap" class="checkout-input h-32"></textarea>
+            <input
+              v-model="form.name"
+              required
+              placeholder="Nama lengkap"
+              class="checkout-input"
+            />
 
-          <select v-model="form.payment_method" class="checkout-input">
-            <option value="xendit">Xendit Payment Gateway</option>
-          </select>
+            <input
+              v-model="form.email"
+              required
+              type="email"
+              placeholder="Email"
+              class="checkout-input"
+            />
 
-          <button
-            type="submit"
-            :disabled="loading || cartStore.cartItems.length === 0"
-            class="w-full bg-[#9ebcdb] text-white py-3 rounded-lg hover:bg-[#36525d] transition disabled:opacity-50"
-          >
-            {{ loading ? 'Memproses...' : 'Bayar Sekarang' }}
-          </button>
-        </form>
+            <input
+              v-model="form.phone"
+              required
+              placeholder="Nomor HP"
+              class="checkout-input"
+            />
 
-        <aside class="border border-[#D8C3A5] rounded-2xl p-6 h-fit">
-          <h2 class="text-xl font-bold mb-4">
-            Ringkasan Pesanan
-          </h2>
+            <textarea
+              v-model="form.address"
+              required
+              placeholder="Alamat lengkap"
+              class="checkout-input h-40"
+            ></textarea>
 
-          <div
-            v-for="item in cartStore.cartItems"
-            :key="item.id"
-            class="flex justify-between mb-3 text-sm"
-          >
-            <span>{{ item.name }} x {{ item.quantity }}</span>
-            <span>Rp {{ (item.price * item.quantity).toLocaleString('id-ID') }}</span>
-          </div>
+            <select
+              v-model="form.payment_method"
+              class="checkout-input"
+            >
+              <option value="xendit">
+                Xendit Payment Gateway
+              </option>
+            </select>
 
-          <div class="flex justify-between border-t border-[#D8C3A5] pt-4 font-bold">
-            <span>Total</span>
-            <span>Rp {{ cartStore.totalPrice.toLocaleString('id-ID') }}</span>
-          </div>
-        </aside>
+            <div class="pt-4">
+              <button
+                type="submit"
+                :disabled="loading || cartStore.cartItems.length === 0"
+                class="w-full bg-[#9ebcdb] text-white py-4 rounded-xl hover:bg-[#36525d] transition disabled:opacity-50"
+              >
+                {{ loading ? 'Memproses...' : 'Bayar Sekarang' }}
+              </button>
+            </div>
+          </form>
+
+          <!-- SUMMARY -->
+          <aside class="border border-[#D8C3A5] rounded-3xl p-8 h-fit bg-white/30">
+            <h2 class="text-2xl font-semibold mb-6">
+              Ringkasan Pesanan
+            </h2>
+
+            <div
+              v-for="item in cartStore.cartItems"
+              :key="item.id"
+              class="flex justify-between mb-4 text-base"
+            >
+              <span>{{ item.name }} x {{ item.quantity }}</span>
+
+              <span>
+                Rp {{ (item.price * item.quantity).toLocaleString('id-ID') }}
+              </span>
+            </div>
+
+            <div class="flex justify-between border-t border-[#D8C3A5] pt-5 text-xl font-semibold">
+              <span>Total</span>
+
+              <span>
+                Rp {{ cartStore.totalPrice.toLocaleString('id-ID') }}
+              </span>
+            </div>
+          </aside>
+
+        </div>
       </div>
     </section>
   </main>

@@ -34,7 +34,7 @@ onMounted(fetchProductDetail)
     >
       <!-- Back Button -->
       <RouterLink
-        to="/menu"
+        to="/m"
         class="inline-flex items-center gap-2 mb-8 text-[#4E8BB7] hover:text-[#36525d] transition"
       >
         ← Back to Menu
@@ -95,14 +95,14 @@ onMounted(fetchProductDetail)
             <div class="flex flex-wrap gap-4">
               <button
                 @click="cartStore.addToCart(product)"
-                class="px-8 py-4 rounded-2xl bg-[#4E8BB7] text-white font-semibold hover:bg-[#36525d] transition shadow-md"
+                class="min-w-[140px] px-8 py-4 rounded-2xl bg-[#4E8BB7] text-white font-semibold hover:bg-[#36525d] hover:-translate-y-1 transition shadow-md"
               >
                 Add to Cart
               </button>
 
               <RouterLink
                 to="/cart"
-                class="inline-flex items-center justify-center px-8 py-4 rounded-2xl border border-[#D8C3A5] text-[#4A2E2B] hover:bg-[#F6EEE5] transition font-semibold"
+                class="min-w-[100px] inline-flex items-center justify-center px-8 py-4 rounded-2xl border border-[#D8C3A5] bg-white/60 text-[#4A2E2B] font-semibold hover:bg-[#4A2E2B] hover:text-white hover:border-[#4A2E2B] hover:-translate-y-1 transition shadow-sm"
               >
                 View Cart
               </RouterLink>

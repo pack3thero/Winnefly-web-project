@@ -27,7 +27,7 @@ const filteredProducts = computed(() => {
 </script>
 
 <template>
-  <section class="w-screen min-h-screen bg-[#FDF8F0] text-[#4A2E2B] py-16">
+  <section class="w-screen min-h-screen bg-[#FDF8F0] text-[#4A2E2B] py-16" id="our-products">
     <div class="w-screen px-8">
     <!-- Header -->
     <div class="w-full text-center mb-8">
