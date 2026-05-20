@@ -1,10 +1,27 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { useCartStore } from '@/stores/cartStore'
 import { useAuthStore } from '@/stores/authStore'
 import { ShoppingCart, UserRound, CakeSlice } from 'lucide-vue-next'
 
+const router = useRouter()
 const cartStore = useCartStore()
 const authStore = useAuthStore()
+
+async function scrollToSection(id: string) {
+  await router.push('/')
+
+  setTimeout(() => {
+    const section = document.getElementById(id)
+
+    if (section) {
+      section.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }, 100)
+}
 </script>
 
 <template>
@@ -36,19 +53,23 @@ const authStore = useAuthStore()
           Home
         </RouterLink>
 
-        <RouterLink
-          to="/#our-products"
-          class="nav-link"
-        >
-          Menu
-        </RouterLink>
-
-        <RouterLink
-          to="/#our-story"
+        <button
+          type="button"
+          @click="scrollToSection('our-story')"
           class="nav-link"
         >
           About Us
-        </RouterLink>
+        </button>
+
+        <button
+          type="button"
+          @click="scrollToSection('our-products')"
+          class="nav-link"
+        >
+          Menu
+        </button>
+
+
 
         <RouterLink
           v-if="!authStore.user"
@@ -122,17 +143,16 @@ const authStore = useAuthStore()
   transform: translateY(-2px);
 }
 
-.nav-link::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background: #C58C6D;
-  border-radius: 999px;
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
+.nav-link {
+  position: relative;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4A2E2B;
+  transition: color 0.3s ease, transform 0.3s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .nav-link:hover::after {

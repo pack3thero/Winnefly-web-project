@@ -23,9 +23,14 @@ function formatPrice(price: number) {
   >
     <div class="relative h-[260px] flex items-center justify-center bg-[#FFF9F1]">
       <span
-        class="absolute top-5 right-5 bg-green-100 text-green-700 text-sm px-4 py-1 rounded-full"
+        :class="[
+          'absolute top-5 right-5 text-sm px-4 py-1 rounded-full',
+          product.stock > 0
+            ? 'bg-green-100 text-green-700'
+            : 'bg-red-100 text-red-700'
+        ]"
       >
-        Available
+        {{ product.stock > 0 ? 'Available' : 'Unavailable' }}
       </span>
 
       <img
@@ -58,10 +63,17 @@ function formatPrice(price: number) {
 
         <button
           @click="cartStore.addToCart(product)"
-          class="bg-[#4E8BB7] text-white rounded-xl py-3 font-medium hover:bg-[#3E749A] hover:shadow-md transition duration-300 flex items-center justify-center gap-2"
+          :disabled="product.stock <= 0"
+          :class="[
+            'rounded-xl py-3 font-medium transition duration-300 flex items-center justify-center gap-2',
+            product.stock > 0
+              ? 'bg-[#4E8BB7] text-white hover:bg-[#3E749A] hover:shadow-md'
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          ]"
         >
           <ShoppingCart class="w-4 h-4" />
-          Add
+
+          {{ product.stock > 0 ? 'Add' : 'Sold Out' }}
         </button>
       </div>
     </div>

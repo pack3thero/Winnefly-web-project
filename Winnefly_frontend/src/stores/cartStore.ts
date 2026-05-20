@@ -1,4 +1,3 @@
-// src/stores/cartStore.ts
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
 
@@ -31,34 +30,61 @@ export const useCartStore = defineStore('cart', () => {
     }, 0)
   })
 
+  function saveCart() {
+    localStorage.setItem(cartKey.value, JSON.stringify(cartItems.value))
+  }
+
   function loadCart() {
     cartKey.value = getCartKey()
     cartItems.value = JSON.parse(localStorage.getItem(cartKey.value) || '[]')
   }
 
   function addToCart(product: any) {
+    if (product.stock <= 0) {
+      alert('Produk sedang tidak tersedia')
+      return
+    }
+
     const existingItem = cartItems.value.find(item => item.id === product.id)
 
     if (existingItem) {
+      if (existingItem.quantity >= product.stock) {
+        alert('Jumlah produk melebihi stok yang tersedia')
+        return
+      }
+
       existingItem.quantity++
     } else {
       cartItems.value.push({
         id: product.id,
         name: product.name,
         price: Number(product.price),
-        image: product.image,
+        image: product.image_url || product.image,
+        stock: product.stock,
         quantity: 1,
       })
     }
+
+    saveCart()
   }
 
   function removeFromCart(id: number) {
     cartItems.value = cartItems.value.filter(item => item.id !== id)
+    saveCart()
   }
 
   function increaseQuantity(id: number) {
     const item = cartItems.value.find(item => item.id === id)
-    if (item) item.quantity++
+
+    if (!item) return
+
+    if (item.quantity >= item.stock) {
+      alert('Jumlah produk melebihi stok yang tersedia')
+      return
+    }
+
+    item.quantity++
+    saveCart()
   }
 
   function decreaseQuantity(id: number) {
@@ -69,11 +95,13 @@ export const useCartStore = defineStore('cart', () => {
     } else {
       removeFromCart(id)
     }
+
+    saveCart()
   }
 
   function clearCart() {
     cartItems.value = []
-    localStorage.setItem(cartKey.value, JSON.stringify([]))
+    saveCart()
   }
 
   watch(

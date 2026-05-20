@@ -50,6 +50,10 @@ const cartStore = useCartStore()
                       Jumlah: {{ item.quantity }}
                     </p>
 
+                    <p class="text-sm text-[#8B6B61] mt-2">
+                      Stok tersedia: {{ item.stock }}
+                    </p>
+
                     <div class="flex items-center gap-4">
                       <button
                         @click="cartStore.decreaseQuantity(item.id)"
@@ -64,7 +68,13 @@ const cartStore = useCartStore()
 
                       <button
                         @click="cartStore.increaseQuantity(item.id)"
-                        class="w-9 h-9 rounded-full bg-[#E8D9C8] hover:bg-[#D8C3A5] transition"
+                        :disabled="item.quantity >= item.stock"
+                        :class="[
+                          'w-9 h-9 rounded-full transition',
+                          item.quantity >= item.stock
+                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                            : 'bg-[#E8D9C8] hover:bg-[#D8C3A5]'
+                        ]"
                       >
                         +
                       </button>

@@ -32,13 +32,6 @@ onMounted(fetchProductDetail)
       v-if="product"
       class="w-full max-w-6xl"
     >
-      <!-- Back Button -->
-      <RouterLink
-        to="/m"
-        class="inline-flex items-center gap-2 mb-8 text-[#4E8BB7] hover:text-[#36525d] transition"
-      >
-        ← Back to Menu
-      </RouterLink>
 
       <!-- Product Container -->
       <div
@@ -85,9 +78,14 @@ onMounted(fetchProductDetail)
               </p>
 
               <span
-                class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm"
+                :class="[
+                  'px-3 py-1 rounded-full text-sm',
+                  product.stock > 0
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-red-100 text-red-700'
+                ]"
               >
-                Available
+                {{ product.stock > 0 ? 'Available' : 'Unavailable' }}
               </span>
             </div>
 
@@ -95,9 +93,15 @@ onMounted(fetchProductDetail)
             <div class="flex flex-wrap gap-4">
               <button
                 @click="cartStore.addToCart(product)"
-                class="min-w-[140px] px-8 py-4 rounded-2xl bg-[#4E8BB7] text-white font-semibold hover:bg-[#36525d] hover:-translate-y-1 transition shadow-md"
+                :disabled="product.stock <= 0"
+                :class="[
+                  'min-w-[140px] px-8 py-4 rounded-2xl font-semibold transition shadow-md',
+                  product.stock > 0
+                    ? 'bg-[#4E8BB7] text-white hover:bg-[#36525d] hover:-translate-y-1'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                ]"
               >
-                Add to Cart
+                {{ product.stock > 0 ? 'Add to Cart' : 'Sold Out' }}
               </button>
 
               <RouterLink

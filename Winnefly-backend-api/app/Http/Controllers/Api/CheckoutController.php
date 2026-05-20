@@ -8,6 +8,7 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use App\Models\Product;
 
 class CheckoutController extends Controller
 {
@@ -22,6 +23,18 @@ class CheckoutController extends Controller
             'items.*.id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
         ]);
+
+        foreach ($request->items as $item) {
+
+            $product = Product::find($item['id']);
+
+            if (!$product || $product->stock < $item['quantity']) {
+
+                return response()->json([
+                    'message' => $product->name . ' stok tidak mencukupi'
+                ], 400);
+            }
+        }
 
         $externalId = 'WINNEFLY-' . Str::uuid();
 
@@ -108,10 +121,30 @@ class CheckoutController extends Controller
                 ], 404);
             }
 
-            if ($request->status === 'PAID' || $request->status === 'SETTLED') {
+            if (
+                ($request->status === 'PAID' || $request->status === 'SETTLED')
+                && $order->status !== 'PAID'
+            ) {
+
                 $order->update([
                     'status' => 'PAID',
                 ]);
+
+                $items = OrderItem::where('order_id', $order->id)->get();
+
+                foreach ($items as $item) {
+
+                    $product = Product::find($item->product_id);
+
+                    if ($product) {
+
+                        $newStock = max(0, $product->stock - $item->quantity);
+
+                        $product->update([
+                            'stock' => $newStock,
+                        ]);
+                    }
+                }
             } elseif ($request->status === 'EXPIRED') {
                 $order->update([
                     'status' => 'EXPIRED',
