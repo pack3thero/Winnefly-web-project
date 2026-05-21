@@ -53,26 +53,27 @@ onMounted(fetchProductDetail)
           </div>
 
           <!-- Detail -->
-          <div class="flex flex-col justify-center">
+          <div class="flex flex-col justify-center py-6 lg:py-10">
+
             <span
               v-if="product.category?.name"
-              class="w-fit px-4 py-2 rounded-full bg-[#EAF4FB] text-[#4E8BB7] text-sm font-semibold mb-5"
+              class="w-fit px-4 py-2 rounded-full bg-[#EAF4FB] text-[#4E8BB7] text-sm font-semibold mb-7"
             >
               {{ product.category.name }}
             </span>
 
-            <h1 class="text-5xl font-bold leading-tight mb-5">
+            <h1 class="text-5xl font-bold leading-tight mb-7">
               {{ product.name }}
             </h1>
 
-            <p class="text-[#6B4F4F] text-lg leading-relaxed mb-8">
+            <p class="text-[#6B4F4F] text-lg leading-relaxed mb-10">
               {{
                 product.description ||
                 'Freshly baked pastry with premium ingredients and handcrafted texture.'
               }}
             </p>
 
-            <div class="flex items-center gap-4 mb-10">
+            <div class="flex items-center gap-4 mb-14">
               <p class="text-4xl font-bold text-[#4E8BB7]">
                 Rp {{ Number(product.price).toLocaleString('id-ID') }}
               </p>
@@ -90,7 +91,7 @@ onMounted(fetchProductDetail)
             </div>
 
             <!-- Buttons -->
-            <div class="flex flex-wrap gap-4">
+            <div class="flex flex-wrap gap-4 pt-2">
               <button
                 @click="cartStore.addToCart(product)"
                 :disabled="product.stock <= 0"

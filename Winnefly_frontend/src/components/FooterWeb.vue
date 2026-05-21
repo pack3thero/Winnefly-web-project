@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+
 import {
   MapPin,
   Phone,
@@ -8,6 +10,23 @@ import {
   ShoppingBag,
   Youtube
 } from 'lucide-vue-next'
+
+const router = useRouter()
+
+async function scrollToSection(id: string) {
+  await router.push('/')
+
+  setTimeout(() => {
+    const section = document.getElementById(id)
+
+    if (section) {
+      section.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }, 100)
+}
 </script>
 
 <template>
@@ -38,39 +57,33 @@ import {
 
           <ul class="space-y-3 text-sm text-[#4F4F4F]">
             <li>
-              <RouterLink
-                to="/"
-                class="hover:text-[#8B5E4E] transition"
+              <button
+                type="button"
+                @click="scrollToSection('home')"
+                class="footer-link"
               >
                 Home
-              </RouterLink>
+              </button>
             </li>
 
             <li>
-              <RouterLink
-                to="/menu"
-                class="hover:text-[#8B5E4E] transition"
+              <button
+                type="button"
+                @click="scrollToSection('our-products')"
+                class="footer-link"
               >
                 Menu
-              </RouterLink>
+              </button>
             </li>
 
             <li>
-              <RouterLink
-                to="/about"
-                class="hover:text-[#8B5E4E] transition"
+              <button
+                type="button"
+                @click="scrollToSection('our-story')"
+                class="footer-link"
               >
                 About Us
-              </RouterLink>
-            </li>
-
-            <li>
-              <RouterLink
-                to="/contact"
-                class="hover:text-[#8B5E4E] transition"
-              >
-                Contact
-              </RouterLink>
+              </button>
             </li>
           </ul>
         </div>
@@ -151,3 +164,19 @@ import {
     </div>
   </footer>
 </template>
+
+<style scoped>
+.footer-link {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #4f4f4f;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #8b5e4e;
+  transform: translateX(4px);
+}
+</style>

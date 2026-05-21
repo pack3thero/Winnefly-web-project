@@ -36,7 +36,7 @@ async function scrollToSection(id: string) {
 
         <div class="leading-tight">
           <h1 class="text-xl font-bold tracking-wide text-[#4A2E2B]">
-            Winnefly
+            Winnefly Pastries
           </h1>
           <p class="text-xs text-[#9A7B6F] -mt-1">
             Pastries & Dessert

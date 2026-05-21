@@ -29,9 +29,10 @@ const filteredProducts = computed(() => {
 <template>
   <section class="w-screen min-h-screen bg-[#FDF8F0] text-[#4A2E2B] py-16" id="our-products">
     <div class="w-screen px-8">
-    <!-- Header -->
-    <div class="w-full text-center mb-8">
-        <h1 class="text-5xl font-bold mb-4">
+
+      <!-- Header -->
+      <div class="w-full text-center mb-12">
+        <h1 class="text-5xl font-bold mb-6">
           Our Products
         </h1>
 
@@ -41,7 +42,7 @@ const filteredProducts = computed(() => {
       </div>
 
       <!-- Category -->
-      <div class="w-full flex justify-center gap-4 mb-24">
+      <div class="w-full flex justify-center gap-2 mb-14">
         <button
           v-for="category in categories"
           :key="category"
@@ -58,7 +59,7 @@ const filteredProducts = computed(() => {
       </div>
 
       <!-- Products -->
-      <div class="w-full pt-20">
+      <div class="w-full pt-4">
         <div
           v-if="filteredProducts.length > 0"
           class="w-full flex justify-center"
@@ -76,6 +77,7 @@ const filteredProducts = computed(() => {
           Produk belum tersedia.
         </p>
       </div>
+
     </div>
   </section>
 </template>

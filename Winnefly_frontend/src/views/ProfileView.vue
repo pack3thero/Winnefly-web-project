@@ -258,10 +258,13 @@ async function logout() {
         </form>
       </div>
 
-      <div v-if="!isEditing" class="mt-20 flex justify-end">
+      <div
+        v-if="!isEditing"
+        class="mt-28 pt-6 border-t border-[#E8DCCF] flex justify-end"
+      >
         <button
           @click="logout"
-          class="bg-[#4A2E2B] hover:bg-[#37211f] transition text-white px-7 py-3 rounded-2xl font-medium shadow-sm"
+          class="bg-[#4A2E2B] hover:bg-[#37211f] transition text-white px-7 py-3 rounded-2xl font-medium shadow-sm gap-4"
         >
           Logout
         </button>

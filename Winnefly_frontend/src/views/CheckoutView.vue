@@ -47,7 +47,7 @@ async function checkout() {
 
 <template>
   <main class="bg-[#FDF8F0] text-[#4A2E2B]">
-    <section class="w-full px-8 py-16 flex justify-center">
+    <section class="w-full px-8 py-8 flex justify-center">
       <div class="w-full max-w-5xl">
 
         <!-- TITLE -->
@@ -58,57 +58,59 @@ async function checkout() {
         <!-- CONTENT -->
         <div class="grid grid-cols-1 lg:grid-cols-[1.5fr_0.9fr] gap-14 items-start">
 
-          <!-- FORM -->
-          <form @submit.prevent="checkout" class="space-y-5">
+        <!-- FORM -->
+        <form
+          @submit.prevent="checkout"
+          class="flex flex-col gap-4"
+        >
 
-            <input
-              v-model="form.name"
-              required
-              placeholder="Nama lengkap"
-              class="checkout-input"
-            />
+          <input
+            v-model="form.name"
+            required
+            placeholder="Nama lengkap"
+            class="checkout-input"
+          />
 
-            <input
-              v-model="form.email"
-              required
-              type="email"
-              placeholder="Email"
-              class="checkout-input"
-            />
+          <input
+            v-model="form.email"
+            required
+            type="email"
+            placeholder="Email"
+            class="checkout-input"
+          />
 
-            <input
-              v-model="form.phone"
-              required
-              placeholder="Nomor HP"
-              class="checkout-input"
-            />
+          <input
+            v-model="form.phone"
+            required
+            placeholder="Nomor HP"
+            class="checkout-input"
+          />
 
-            <textarea
-              v-model="form.address"
-              required
-              placeholder="Alamat lengkap"
-              class="checkout-input h-40"
-            ></textarea>
+          <textarea
+            v-model="form.address"
+            required
+            placeholder="Alamat lengkap"
+            class="checkout-input h-40"
+          ></textarea>
 
-            <select
-              v-model="form.payment_method"
-              class="checkout-input"
-            >
-              <option value="xendit">
-                Xendit Payment Gateway
-              </option>
-            </select>
+          <select
+            v-model="form.payment_method"
+            class="checkout-input"
+          >
+            <option value="xendit">
+              Xendit Payment Gateway
+            </option>
+          </select>
 
-            <div class="pt-4">
-              <button
-                type="submit"
-                :disabled="loading || cartStore.cartItems.length === 0"
-                class="w-full bg-[#9ebcdb] text-white py-4 rounded-xl hover:bg-[#36525d] transition disabled:opacity-50"
-              >
-                {{ loading ? 'Memproses...' : 'Bayar Sekarang' }}
-              </button>
-            </div>
-          </form>
+          <button
+            type="submit"
+            :disabled="loading || cartStore.cartItems.length === 0"
+            class="w-full mt-2 bg-[#9ebcdb] text-white py-4 rounded-xl hover:bg-[#36525d] transition disabled:opacity-50"
+          >
+            {{ loading ? 'Memproses...' : 'Bayar Sekarang' }}
+          </button>
+
+        </form>
 
           <!-- SUMMARY -->
           <aside class="border border-[#D8C3A5] rounded-3xl p-8 h-fit bg-white/30">
