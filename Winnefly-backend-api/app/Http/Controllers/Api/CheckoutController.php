@@ -9,11 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use App\Models\Product;
+use App\Mail\InvoiceCreatedMail;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
     public function checkout(Request $request)
     {
+        
         $request->validate([
             'customer_name' => 'required|string',
             'customer_email' => 'required|email',
@@ -90,6 +93,9 @@ class CheckoutController extends Controller
             'invoice_url' => $invoice['invoice_url'],
         ]);
 
+        Mail::to($order->customer_email)
+            ->send(new InvoiceCreatedMail($order));
+
         return response()->json([
             'message' => 'Checkout berhasil',
             'order_id' => $order->id,
@@ -157,6 +163,21 @@ class CheckoutController extends Controller
 
             return response()->json([
                 'message' => 'Callback received'
+            ]);
+        }
+
+        public function myOrders(Request $request)
+        {
+            $user = $request->user();
+
+            $orders = Order::where('user_id', $user->id)
+                ->latest()
+                ->get();
+
+            return response()->json([
+                'login_user_id' => $user->id,
+                'login_email' => $user->email,
+                'orders' => $orders,
             ]);
         }
 }

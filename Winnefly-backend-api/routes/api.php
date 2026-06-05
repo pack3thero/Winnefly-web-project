@@ -15,8 +15,9 @@ Route::apiResource('products', ProductController::class);
 
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::post('/categories', [CategoryController::class, 'store']);
-Route::post('/checkout', [CheckoutController::class, 'checkout']);
+
 Route::post('/xendit/callback', [CheckoutController::class, 'callback']);
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -25,4 +26,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::post('/checkout', [CheckoutController::class, 'checkout']);
+    Route::get('/my-orders', [CheckoutController::class, 'myOrders']);
 });
